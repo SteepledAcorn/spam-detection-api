@@ -2,10 +2,15 @@
 from sklearn.preprocessing import LabelBinarizer
 import re
 import pandas as pd
+import os
 
 import nltk
-nltk.download('stopwords')
-nltk.download('wordnet')
+
+required_corpa = ['stopwords', 'wordnet']
+for corpus in required_corpa:
+    if corpus not in os.listdir(nltk.data.find('corpora')):
+        nltk.download(corpus)
+
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 from sklearn.model_selection import train_test_split

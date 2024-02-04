@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-from spam_detection_api.classifiers.naivebayes_classifier import NaiveBayesClassifier
+from spam_detection_api.classifiers.classifier import *
 import logging
 
 logging.basicConfig(level = logging.INFO)
