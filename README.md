@@ -65,3 +65,28 @@ $ curl -X POST -H "Content-Type: application/json" -d '{"message":["Free Bitcoin
 ```
 
 Note: the API accepts both a single string message or a list of messages.
+
+### Project layout
+
+```
+spam_detection_api
+    ├
+    ├── classifiers
+    │   ├── __init__.py
+    │   ├── classifier.py
+    │   └── template_classifier.py
+    ├── preprocessing
+    │   ├── __init__.py
+    │   ├── data_loading.py
+    │   └── preprocessor.py
+    ├── saved_models
+    │   ├── naive_bayes
+    │   │   ├── model_v1.pkl
+    │   │   └── vectorizer_v1.pkl
+    │   └── xgboost
+    │       ├── model_v1.pkl
+    │       └── vectorizer_v1.pkl
+    ├── training_pipeline.py
+    ├── app.py
+```
+
