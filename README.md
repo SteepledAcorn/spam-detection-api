@@ -21,7 +21,7 @@ Columns included are as follows:
 2. To train the various spam classifiers run `python training_pipeline.py`. This will save both the model & vectorizers to the relative folders in `./saved_models`.
 
 ### Running the API
-There are already pre-trained models provided in this repository so there is no need to train
+There are already pre-trained models provided in this repository so there is no need to train. By default Flask runs on port 5000.
 
 1. Navigate to the `spam_detection_api` folder.
 2. Run `python app.py`
