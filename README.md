@@ -16,10 +16,6 @@ Columns included are as follows:
 1. Create a python virtual environment with version 3.11 or higher. Activate the environment (pyenv or conda etc.)
 2. Install dependencies `pip install requirements.txt`
 
-### Model Training (Optional)
-1. Navigate to the `spam_detection_api` folder. All scripts need to be ran from this working directory.
-2. To train the various spam classifiers run `python training_pipeline.py`. This will save both the model & vectorizers to the relative folders in `./saved_models`.
-
 ### Running the API
 There are already pre-trained models provided in this repository so there is no need to train. By default Flask runs on port 5000.
 
@@ -46,7 +42,7 @@ INFO:werkzeug:127.0.0.1 - - [05/Feb/2024 17:44:47] "POST /predict HTTP/1.1" 200 
 INFO:werkzeug:127.0.0.1 - - [05/Feb/2024 17:44:51] "POST /predict HTTP/1.1" 200 -
 ```
 
-Once the app is running, you can make queries to the API via curl commands in a seperate terminal. Please see below for some examples. Note if no model is specified it uses the `default_model` set in the config.yaml file.
+Once the app is running, you can make queries to the API via curl commands in a seperate terminal. If no model is specified it uses the `default_model_type` set in the config.yaml file. Please see below for some examples.
 
 ```
 $ curl -X POST -H "Content-Type: application/json" -d '{"message":["Free Bitcoin!", "Hey are you free for a meeting today?"]}' http://127.0.0.1:5000/predict
@@ -79,6 +75,10 @@ $ curl -X POST -H "Content-Type: application/json" -d '{"message": "Free Bitcoin
   ]
 }
 ```
+
+### Model Training (Optional)
+1. Navigate to the `spam_detection_api` folder. All scripts need to be ran from this working directory.
+2. To train the various spam classifiers run `python training_pipeline.py`. This will save both the model & vectorizers to the relative folders in `./saved_models`.
 
 ### Project layout
 
