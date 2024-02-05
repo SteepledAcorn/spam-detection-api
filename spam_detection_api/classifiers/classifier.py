@@ -7,7 +7,6 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-
 class NaiveBayesClassifier(TemplateClassifier):
     def __init__(self,  model_path=None, vectorizer_path=None):
         super().__init__(model_path, vectorizer_path)
@@ -49,6 +48,7 @@ class XGBoostClassifier(TemplateClassifier):
 
 
     def predict(self, texts):
+        # NB: this if statement is key for all classifiers
         if self.classifier is None:
             logger.warning("Classifier not loaded, attempting to load now.")
             if self.model_path and self.vectorizer_path:
@@ -57,3 +57,16 @@ class XGBoostClassifier(TemplateClassifier):
                 raise Exception("Model and vectorizer paths are not set. Cannot load the model.")
         texts_vectorized = self.vectorizer.transform(texts)
         return self.classifier.predict(texts_vectorized)
+    
+
+
+def get_valid_classifiers():
+    """
+    Helper function to store valid classifiers.
+    """
+    valid_classifiers = {
+        'naive_bayes': NaiveBayesClassifier(),
+        'xgboost': XGBoostClassifier()
+    }
+
+    return valid_classifiers

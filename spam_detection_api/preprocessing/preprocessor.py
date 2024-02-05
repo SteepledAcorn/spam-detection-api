@@ -13,8 +13,6 @@ for corpus in required_corpa:
 
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
-from sklearn.model_selection import train_test_split
-from sklearn.feature_extraction.text import CountVectorizer
 
 
 def preprocess_email(email: str) -> str:

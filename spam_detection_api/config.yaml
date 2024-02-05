@@ -1,0 +1,9 @@
+
+model_directory: ./saved_models
+data_path: ./data/raw/dataset.csv
+
+default_model_type: 'naive_bayes'
+default_model_version: 1
+
+target_column: 'label'
+email_column: 'text'

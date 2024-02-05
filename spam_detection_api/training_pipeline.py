@@ -1,5 +1,6 @@
 import os
 import logging
+import yaml
 from spam_detection_api.classifiers.classifier import *
 from spam_detection_api.preprocessing.data_loading import *
 from spam_detection_api.preprocessing.preprocessor import *
@@ -11,8 +12,10 @@ logging.basicConfig(level = logging.INFO)
 logger = logging.getLogger('training_pipeline')
 
 
-def get_preprocess_split_data(raw_data_path, target_column, email_column):
-    
+def preprocess_and_split_data(raw_data_path, target_column, email_column):
+    """
+    Function to encapsulate all data preprocessing
+    """
     logger.info(f"Fetching data at {raw_data_path}")
     data = DataLoader(raw_data_path).get_data()
 
@@ -30,8 +33,11 @@ def get_preprocess_split_data(raw_data_path, target_column, email_column):
     return X_train, X_test, y_train, y_test
 
 
+
 def train_and_test_classifier(classifier, X_train, X_test, y_train, y_test):
-    
+    """
+    Function which trains, tests and saves given classifier
+    """
     classifier_type = type(classifier).__name__
 
     logger.info(f"Training {classifier_type} classifer")
@@ -46,11 +52,10 @@ def train_and_test_classifier(classifier, X_train, X_test, y_train, y_test):
 
 def create_filename_with_versioning(folder_path, file_name):
     """
-    Saves a file with versioning to avoid overwriting existing files.
+    Create a filename with versioning to avoid overwriting existing files.
     
     folder_path: The path to the folder where the file will be saved.
-    file_name: The original name of the file.
-    file_content: The content to save in the file.
+    file_name: The original name of the file (without versioning).
     """
     # Ensure the folder exists
     os.makedirs(folder_path, exist_ok=True)
@@ -77,14 +82,19 @@ def create_filename_with_versioning(folder_path, file_name):
 
 
 if __name__=='__main__':
-        
-    data_path = './data/raw/dataset.csv'
-    model_directory = './saved_models/'
-    classifiers = {'naive_bayes': NaiveBayesClassifier(), 'xgboost': XGBoostClassifier()}
-    target_column='label'
-    email_column='text'
+    
+    # Set config values
+    with open('./config.yaml', "r") as file:
+        config = yaml.safe_load(file)
 
-    X_train, X_test, y_train, y_test = get_preprocess_split_data(data_path, target_column, email_column)
+    data_path = config['data_path']
+    model_directory = config['model_directory']
+    target_column = config['target_column']
+    email_column = config['email_column']
+
+    classifiers = get_valid_classifiers()
+    
+    X_train, X_test, y_train, y_test = preprocess_and_split_data(data_path, target_column, email_column)
 
     logger.info(f"Training classifer(s): {classifiers.keys()}")
 

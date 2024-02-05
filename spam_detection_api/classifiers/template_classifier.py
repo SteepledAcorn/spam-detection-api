@@ -5,7 +5,7 @@ class TemplateClassifier(ABC):
     """
     Class to define the required structure of a spam prediction classifier.
     
-    Every classifier may have its own unique train/predict function.
+    Every classifier may have its own unique vectorizer and train/predict function.
 
     Model save/load is universal.
     """
@@ -25,7 +25,7 @@ class TemplateClassifier(ABC):
     @abstractmethod
     def predict(self, texts: list):
         """
-        Given predict spam/ham for given texts samples.
+        Predict spam/ham for given texts samples.
         """
         pass
 
