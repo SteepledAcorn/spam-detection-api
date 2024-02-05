@@ -12,12 +12,56 @@ Columns included are as follows:
 
 - Text - Content of the email subject
 
-### Acceptance Criteria
+### Setup
+1. Create a python virtual environment with version 3.11 or higher. Activate the environment (pyenv or conda etc.)
+2. Install dependencies `pip install requirements.txt`
 
-- The API must incorporate an endpoint that accepts data from an SMS message and subsequently returns a response that includes a spam classification.
+### Model Training (Optional)
+1. Navigate to the `spam_detection_api` folder. All scripts need to be ran from this working directory.
+2. To train the various spam classifiers run `python training_pipeline.py`. This will save both the model & vectorizers to the relative folders in `./saved_models`.
 
-- The solution design must be flexible enough to accommodate easy switching of models, and the addition of new models in the future.
+### Running the API
+There are already pre-trained models provided in this repository so there is no need to train
 
-- The solution must be able to run on any machine, locally or in the cloud.
+1. Navigate to the `spam_detection_api` folder.
+2. Run `python app.py`
 
-- The solution must be documented and easy to understand.
+A successful running app log should look like this:
+
+```
+$ python app.py 
+[nltk_data] Downloading package wordnet to /home/adser/nltk_data...
+[nltk_data]   Package wordnet is already up-to-date!
+ * Serving Flask app 'app'
+ * Debug mode: on
+INFO:werkzeug:WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:5000
+INFO:werkzeug:Press CTRL+C to quit
+INFO:werkzeug: * Restarting with stat
+[nltk_data] Downloading package wordnet to /home/adser/nltk_data...
+[nltk_data]   Package wordnet is already up-to-date!
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 964-575-855
+INFO:werkzeug:127.0.0.1 - - [05/Feb/2024 17:44:47] "POST /predict HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [05/Feb/2024 17:44:51] "POST /predict HTTP/1.1" 200 -
+```
+
+Once the app is running, you can make queries to the API via curl commands in a seperate terminal. Please see below for some examples
+
+```
+$ curl -X POST -H "Content-Type: application/json" -d '{"message":["Free Bitcoin!", "Hey are you free for a meeting today?"], "model":"xgboost"}' http://127.0.0.1:5000/predict
+
+{
+  "messages": [
+    "Free Bitcoin!",
+    "Hey are you free for a meeting today?"
+  ],
+  "model": "naive_bayes",
+  "predictions": [
+    "Spam",
+    "Not Spam"
+  ]
+}
+```
+
+Note: the API accepts both a single string message or a list of messages.
