@@ -46,10 +46,10 @@ INFO:werkzeug:127.0.0.1 - - [05/Feb/2024 17:44:47] "POST /predict HTTP/1.1" 200 
 INFO:werkzeug:127.0.0.1 - - [05/Feb/2024 17:44:51] "POST /predict HTTP/1.1" 200 -
 ```
 
-Once the app is running, you can make queries to the API via curl commands in a seperate terminal. Please see below for some examples
+Once the app is running, you can make queries to the API via curl commands in a seperate terminal. Please see below for some examples. Note if no model is specified it uses the `default_model` set in the config.yaml file.
 
 ```
-$ curl -X POST -H "Content-Type: application/json" -d '{"message":["Free Bitcoin!", "Hey are you free for a meeting today?"], "model":"xgboost"}' http://127.0.0.1:5000/predict
+$ curl -X POST -H "Content-Type: application/json" -d '{"message":["Free Bitcoin!", "Hey are you free for a meeting today?"]}' http://127.0.0.1:5000/predict
 
 {
   "messages": [
@@ -64,7 +64,21 @@ $ curl -X POST -H "Content-Type: application/json" -d '{"message":["Free Bitcoin
 }
 ```
 
-Note: the API accepts both a single string message or a list of messages.
+Note: the API accepts both a single string message or a list of messages. Note the specification of a different model in this call.
+
+```
+$ curl -X POST -H "Content-Type: application/json" -d '{"message": "Free Bitcoin!", "model":"xgboost"}' http://127.0.0.1:5000/predict
+
+{
+  "messages": [
+    "Free Bitcoin!"
+  ],
+  "model": "xgboost",
+  "predictions": [
+    "Spam"
+  ]
+}
+```
 
 ### Project layout
 
