@@ -104,3 +104,5 @@ spam_detection_api
     ├── app.py
 ```
 
+### Adding classifiers
+The `classifier` file contains the various models which can be used to predict spam. These are modular and classifiers can be added very easily by inheriting from the `TemplateClassifier` object. Once a new classifier has been created, simply add it to the dictionary in `classifiers.get_valid_classifiers()`
